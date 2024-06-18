@@ -5,7 +5,7 @@ const RPC_URL = 'https://testnet-rpc.plumenetwork.xyz/http';
 
 export const GET = async (req: NextRequest): Promise<NextResponse> => {
   const searchParams = req.nextUrl.searchParams;
-  const address = searchParams.get('address');
+  const address = searchParams.get('address') as string;
   try {
     const rpcResponse = await fetch(RPC_URL, {
       method: 'POST',
@@ -32,7 +32,7 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
         data: {
           timestamp: Math.floor(Date.now() / 1000), // timestamp in seconds
           // unique parameter that identifies that the user completed the task
-          tx: crypto.createHash('sha256').update(address).digest('hex'),
+          tx: crypto.createHash('sha256').update(address + "plume").digest('hex'),
         },
       }, { status: 200 });
     }
