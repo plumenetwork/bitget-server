@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import crypto from 'crypto';
 
 const RPC_URL = 'https://testnet-rpc.plumenetwork.xyz/http';
 
@@ -30,7 +31,8 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
         status: 0,
         data: {
           timestamp: Math.floor(Date.now() / 1000), // timestamp in seconds
-          tx: address, // unique parameter that identifies that the user completed the task
+          // unique parameter that identifies that the user completed the task
+          tx: crypto.createHash('sha256').update(address).digest('hex'),
         },
       }, { status: 200 });
     }
